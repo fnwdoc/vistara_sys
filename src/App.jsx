@@ -3,12 +3,12 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, signInWithCustomToken } from 'firebase/auth';
 import { getFirestore, collection, onSnapshot, doc, setDoc, addDoc, getDocs, query, where, deleteDoc } from 'firebase/firestore';
 
-// Variáveis globais para Firebase, fornecidas pelo ambiente.
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+// Firebase configuration using environment variables
+const firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG || '{}');
+const appId = import.meta.env.VITE_APP_ID || 'default-app-id';
+const initialAuthToken = import.meta.env.VITE_INITIAL_AUTH_TOKEN || null;
 
-// Inicializa a conexão com o Firebase
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
@@ -671,39 +671,6 @@ const App = () => {
 
     return (
         <div className="font-sans bg-gray-50 min-h-screen">
-            <style>
-                {`
-                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-                body { font-family: 'Inter', sans-serif; }
-                .range-lg::-webkit-slider-thumb {
-                    -webkit-appearance: none;
-                    width: 20px;
-                    height: 20px;
-                    background: #0ea5e9; /* sky-500 */
-                    border-radius: 50%;
-                    cursor: pointer;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-                    transition: background-color 0.3s;
-                }
-                .range-lg::-moz-range-thumb {
-                    width: 20px;
-                    height: 20px;
-                    background: #0ea5e9; /* sky-500 */
-                    border-radius: 50%;
-                    cursor: pointer;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-                    transition: background-color 0.3s;
-                }
-                .range-lg:hover::-webkit-slider-thumb {
-                    background: #0369a1; /* sky-700 */
-                }
-                .range-lg:hover::-moz-range-thumb {
-                    background: #0369a1; /* sky-700 */
-                }
-                `}
-            </style>
-            <script src="https://cdn.tailwindcss.com"></script>
-
             <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
                 {/* Cabeçalho */}
                 <div className="flex justify-between items-center mb-10">
